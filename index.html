@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Fergi Beautyfull | Belleza & Estilo</title>
+  <!-- Preconexiones -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <link rel="shortcut icon" href="./logo.png" type="image/png">
+<link rel="icon" href="imgInput.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" media="print" onload="this.media='all'">
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  </noscript>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: #fff9f5;
+      color: #3e2a2a;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    img, video {
+      max-width: 100%;
+      display: block;
+      content-visibility: auto;
+    }
+
+    /* TRANSICIONES SUAVES ENTRE SECCIONES */
+    section, .shared-gif-section, .action, footer {
+      transition: opacity 0.6s ease, transform 0.5s ease;
+    }
+
+    /* Animaciones */
+    @keyframes fadeScale {
+      0% { opacity: 0; transform: scale(0.96); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes floatSoft {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 0 0 rgba(255,92,168,0.5); }
+      70% { box-shadow: 0 0 0 12px rgba(255,92,168,0); }
+      100% { box-shadow: 0 0 0 0 rgba(255,92,168,0); }
+    }
+
+    /* WHATSAPP FLOTANTE */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      z-index: 1000;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.8);
+      pointer-events: none;
+    }
+
+    .whatsapp-float.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+      pointer-events: auto;
+      animation: pulseGlow 1.8s infinite, floatSoft 2.5s infinite;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.1) rotate(5deg);
+      background: linear-gradient(135deg, #20b859, #075e54);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ========== HERO ========== */
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      background: #ffefdf;
+      overflow: hidden;
+    }
+
+    .hero .container-full {
+      max-width: 100%;
+      padding: 0;
+      height: 100vh;
+      position: relative;
+    }
+
+    .hero-image-full {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      filter: brightness(0.92);
+      display: block;
+    }
+
+    /* Carrusel móvil */
+    .hero-carousel {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .hero-carousel-inner {
+      display: flex;
+      height: 100%;
+      transition: transform 0.5s cubic-bezier(0.25, 0.9, 0.4, 1.1);
+      will-change: transform;
+    }
+
+    .hero-slide {
+      min-width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .slide-1 { background-image: url('1.png'); }
+    .slide-2 { background-image: url('2.png'); }
+    .slide-3 { background-image: url('3.png'); }
+
+    .hero-indicators {
+      display: none;
+      position: absolute;
+      bottom: 12%;
+      left: 50%;
+      transform: translateX(-50%);
+      gap: 0.8rem;
+      z-index: 5;
+    }
+
+    .hero-indicators .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 20px;
+      background: rgba(255,240,220,0.6);
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .hero-indicators .dot.active {
+      background: #ffb48a;
+      width: 28px;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      bottom: 8%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      width: 90%;
+      max-width: 600px;
+      border-radius: 48px;
+      padding: 1.8rem 2rem;
+      animation: fadeScale 0.8s ease-out;
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(8px);
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.9rem, 7vw, 3.2rem);
+      color: #f9e45b;
+      text-shadow: 2px 2px 12px rgba(0,0,0,0.4);
+    }
+
+    .hero h1 span { color: white; font-style: italic; }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #fff5ea;
+      margin: 0.8rem 0 1.5rem;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 0.8rem 2rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: 0.25s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      color: white;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    }
+    .btn-primary:hover { transform: translateY(-4px); background: linear-gradient(135deg, #20b859, #075e54); }
+
+    .btn-outline {
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(8px);
+      color: white;
+      border: 1px solid white;
+    }
+    .btn-outline:hover { background: white; color: #d97a4a; transform: translateY(-3px); }
+
+    @media (max-width: 768px) {
+      .hero-image-full { display: none; }
+      .hero-carousel { display: block; }
+      .hero-indicators { display: flex; }
+      .hero-overlay { bottom: 5%; width: 92%; padding: 1.2rem 1.5rem; }
+      .hero h1 { font-size: 1.8rem; }
+    }
+
+    /* ========== SECCIÓN COMÚN ========== */
+    .shared-gif-section {
+      position: relative;
+      background: #fffaf5;
+      isolation: isolate;
+      overflow: hidden;
+    }
+
+    .background-gif {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.35;
+    }
+
+    .benefits {
+      position: relative;
+      z-index: 2;
+      padding: 4rem 0;
+    }
+
+    .benefits h2 {
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, #b95f3a, #e2a07a);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .benefits-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .benefit-card {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(4px);
+      border-radius: 2rem;
+      padding: 2rem;
+      flex: 1 1 240px;
+      max-width: 280px;
+      transition: 0.3s;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+      border: 1px solid rgba(255,223,206,0.8);
+      text-align: center;
+    }
+
+    .benefit-card:hover {
+      transform: translateY(-10px);
+      background: rgba(255,255,255,0.96);
+      border-color: #f5b089;
+    }
+
+    .benefit-icon { font-size: 2.8rem; color: #e6946c; margin-bottom: 1rem; }
+
+    .trust {
+      position: relative;
+      z-index: 2;
+      padding: 5rem 1.5rem;
+    }
+
+    .trust h2 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      text-align: center;
+      color: #4a2c36;
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .testimonial {
+      position: relative;
+      border-radius: 2rem;
+      min-height: 360px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      background-size: cover;
+      background-position: center;
+      isolation: isolate;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+      transition: 0.3s;
+      background-color: rgba(0,0,0,0.3);
+      cursor: pointer;
+    }
+
+    .testimonial::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.4), rgba(0,0,0,0.1));
+      border-radius: 2rem;
+      z-index: 0;
+    }
+
+    .testimonial:hover { transform: translateY(-8px); }
+    .testimonial .stars, .testimonial p, .testimonial .client {
+      position: relative;
+      z-index: 2;
+      color: white;
+    }
+    .stars { color: #ffd966; margin-bottom: 0.8rem; }
+    .testimonial p { font-size: 1rem; line-height: 1.5; text-shadow: 0 1px 5px black; }
+    .client { font-weight: 700; margin-top: 1rem; color: #ffd6ea; }
+    .testimonial-1 { background-image: url('testimonio1.png'); }
+    .testimonial-2 { background-image: url('testimonio2.png'); }
+
+    /* LIGHTBOX */
+    .lightbox-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.2s, opacity 0.2s;
+    }
+    .lightbox-overlay.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    .lightbox-carousel-container {
+      position: relative;
+      width: 100%;
+      height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .lightbox-carousel {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      transition: transform 0.4s ease;
+      will-change: transform;
+    }
+    .lightbox-slide {
+      min-width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      position: relative;
+    }
+    .lightbox-caption {
+      background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.5));
+      width: 100%;
+      padding: 1.5rem;
+      text-align: center;
+      color: white;
+      font-family: 'Quicksand', sans-serif;
+    }
+    .lightbox-caption .stars { color: #ffd966; font-size: 1rem; margin-bottom: 0.5rem; }
+    .lightbox-caption p { font-size: 1rem; margin-bottom: 0.5rem; }
+    .lightbox-caption .client { font-weight: 700; color: #ffd6ea; }
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      font-size: 32px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2010;
+      transition: 0.2s;
+    }
+    .lightbox-close:hover { background: rgba(255,255,255,0.2); transform: scale(1.05); }
+    .lightbox-prev, .lightbox-next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      color: white;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 2010;
+      transition: 0.2s;
+    }
+    .lightbox-prev { left: 15px; }
+    .lightbox-next { right: 15px; }
+    .lightbox-prev:hover, .lightbox-next:hover { background: rgba(255,255,255,0.3); }
+    @media (max-width: 768px) {
+      .lightbox-carousel-container { height: 80vh; }
+      .lightbox-caption { padding: 1rem; }
+      .lightbox-close { top: 10px; right: 15px; width: 40px; height: 40px; font-size: 26px; }
+      .lightbox-prev, .lightbox-next { width: 35px; height: 35px; font-size: 20px; }
+    }
+
+    /* ========== FORMULARIO ========== */
+    .action {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5rem 1.5rem;
+      text-align: center;
+      isolation: isolate;
+      overflow: hidden;
+    }
+    .action-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+      pointer-events: none;
+    }
+    .action-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.7), rgba(0,0,0,0.85));
+      z-index: -1;
+    }
+    .action-content { max-width: 750px; margin: 0 auto; }
+    .action h2 { font-size: clamp(2.2rem, 6vw, 4rem); color: white; margin-bottom: 0.5rem; text-shadow: 0 4px 20px black; }
+    .action p { color: #ffefdf; font-size: 1.2rem; margin-bottom: 2rem; }
+
+    .cta-form {
+      position: relative;
+      overflow: visible;
+      backdrop-filter: blur(12px);
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 2.5rem;
+      padding: 2.2rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .input-girl {
+      position: absolute;
+      width: clamp(75px, 9vw, 110px);
+      height: auto;
+      pointer-events: none;
+      z-index: 20;
+      opacity: 0;
+      transform: translateY(30px) scale(0.85);
+      transition: left 0.45s cubic-bezier(.22,.9,.31,1), top 0.45s cubic-bezier(.22,.9,.31,1), opacity 0.35s ease, transform 0.45s cubic-bezier(.22,.9,.31,1);
+      will-change: left, top, transform;
+    }
+    .input-girl img {
+      width: 100%;
+      display: block;
+      filter: drop-shadow(0 8px 14px rgba(0,0,0,0.22));
+      animation: girlFloat 2.5s ease-in-out infinite;
+      margin-top: 0;
+    }
+    .input-girl.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    @keyframes girlFloat {
+      0%,100% { transform: translateY(0px); }
+      50% { transform: translateY(-4px); }
+    }
+
+    .cta-form input, .cta-form textarea {
+      width: 100%;
+      padding: 1rem 1.4rem;
+      border-radius: 60px;
+      border: none;
+      background: rgba(255,255,255,0.95);
+      font-size: 1rem;
+      margin-bottom: 1.2rem;
+      font-family: 'Quicksand', sans-serif;
+      transition: all 0.25s ease;
+      position: relative;
+      z-index: 2;
+    }
+    .cta-form textarea { border-radius: 30px; resize: vertical; }
+    .cta-form input:focus, .cta-form textarea:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px #ff86b9;
+      background: white;
+      transform: translateY(-2px);
+    }
+
+    .btn-submit {
+      width: 100%;
+      border: none;
+      padding: 1rem;
+      border-radius: 60px;
+      background: linear-gradient(95deg, #ff5ca8, #ff3b8b);
+      color: white;
+      font-weight: 800;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: 0.25s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-submit:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(255,92,168,0.5); }
+    .form-message { margin-top: 1.2rem; font-weight: 600; color: #ffecb3; }
+    .incentive-badge {
+      background: #ffd966cc;
+      backdrop-filter: blur(4px);
+      display: inline-block;
+      border-radius: 40px;
+      padding: 0.5rem 1.2rem;
+      margin-top: 1rem;
+      font-weight: 700;
+      color: #5a2a2a;
+      font-size: 0.85rem;
+    }
+    @media(max-width:768px) { .input-girl { width: 82px; } }
+
+    /* ========== FOOTER PROFESIONAL Y MODERNO ========== */
+    .footer {
+      position: relative;
+      background: #1a1a2e;
+      padding: 4rem 1.5rem 2rem;
+      isolation: isolate;
+      overflow: hidden;
+    }
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255,92,168,0.08) 0%, rgba(255,211,110,0.05) 100%);
+      z-index: 0;
+      pointer-events: none;
+    }
+    .footer .container {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .footer-col h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: #ffddbb;
+      margin-bottom: 1.2rem;
+      position: relative;
+      display: inline-block;
+    }
+    .footer-col h3::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: linear-gradient(90deg, #ff5ca8, #ffd36e);
+      border-radius: 3px;
+    }
+    .footer-col p {
+      color: rgba(255,255,255,0.75);
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    .footer-social a {
+      width: 38px;
+      height: 38px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffddbb;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    .footer-social a:hover {
+      background: linear-gradient(135deg, #ff5ca8, #ffd36e);
+      color: #1a1a2e;
+      transform: translateY(-3px);
+    }
+    .footer-contact {
+      list-style: none;
+      padding: 0;
+    }
+    .footer-contact li {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+      color: rgba(255,255,255,0.75);
+      font-size: 0.95rem;
+    }
+    .footer-contact li i {
+      width: 30px;
+      height: 30px;
+      background: rgba(255,92,168,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ff8bcb;
+      font-size: 0.9rem;
+    }
+    .footer-contact a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-contact a:hover {
+      color: #ffd36e;
+    }
+    .footer-newsletter p {
+      margin-bottom: 1rem;
+    }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 1.8rem;
+      text-align: center;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+    .footer-bottom p {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.85rem;
+    }
+    .footer-bottom-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .footer-bottom-links a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+    .footer-bottom-links a:hover {
+      color: #ffd36e;
+    }
+    @media (max-width: 768px) {
+      .footer { padding: 3rem 1rem 1.5rem; }
+      .footer-grid { gap: 1.8rem; }
+      .footer-col { text-align: center; }
+      .footer-col h3::after { left: 50%; transform: translateX(-50%); }
+      .footer-social { justify-content: center; }
+      .footer-contact li { justify-content: center; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+
+    .full-brand-image img { width: 100%; height: auto; display: block; }
+
+    @media (max-width: 600px) {
+      .btn-group { flex-direction: column; align-items: center; width: 100%; }
+      .btn { width: 100%; }
+      .cta-form { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="https://wa.me/573127812042?text=Hola%20soñé%20con%20un%20look%20mágico%20✨%20quiero%20agendar" 
+     class="whatsapp-float" id="whatsappFloat" target="_blank" rel="noopener noreferrer">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <section class="hero">
+    <div class="container-full">
+      <img src="headerImgFergi.jpg" alt="Fergi Beautyfull look" class="hero-image-full" fetchpriority="high" loading="eager">
+      <div class="hero-carousel" id="heroCarousel">
+        <div class="hero-carousel-inner" id="carouselInner">
+          <div class="hero-slide slide-1"></div>
+          <div class="hero-slide slide-2"></div>
+          <div class="hero-slide slide-3"></div>
+        </div>
+      </div>
+      <div class="hero-indicators" id="heroIndicators">
+        <button class="dot active" data-index="0"></button>
+        <button class="dot" data-index="1"></button>
+        <button class="dot" data-index="2"></button>
+      </div>
+      <div class="hero-overlay">
+        <h1>Brilla con <span>tu nuevo look</span></h1>
+        <p class="hero-subtitle">Pelucas, maquillaje y mas. para cada edad, cada momento.</p>
+        <div class="btn-group">
+          <a href="https://wa.me/573127812042?text=Hola%20soñé%20con%20un%20look%20mágico" target="_blank" class="btn btn-primary">
+            <i class="fab fa-whatsapp"></i> AGENDAR CITA
+          </a>
+          <a href="#testimonios" class="btn btn-outline">
+            <i class="fas fa-heart"></i> Ver testimonios
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="shared-gif-section">
+    <img class="background-gif" src="/imgFondoTwoParts.png" alt="fondo animado floral" loading="lazy">
+    <section class="benefits">
+      <div class="container">
+        <h2>✨ Pequeños placeres ✨</h2>
+        <div class="benefits-grid">
+          <div class="benefit-card"><div class="benefit-icon"><i class="fas fa-feather-alt"></i></div><h3>Rápido</h3><p>Resultados en minutos</p></div>
+          <div class="benefit-card"><div class="benefit-icon"><i class="fas fa-leaf"></i></div><h3>Natural</h3><p>Acabado impecable</p></div>
+          <div class="benefit-card"><div class="benefit-icon"><i class="fas fa-hand-holding-heart"></i></div><h3>Seguro</h3><p>Productos premium</p></div>
+        </div>
+      </div>
+    </section>
+    <section class="trust" id="testimonios">
+      <div class="container">
+        <h2>🌸 Lo que dicen mis clientas</h2>
+        <div class="testimonial-grid" id="testimonialGrid">
+          <div class="testimonial testimonial-1" data-index="0"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p>"Me sentí como una princesa, servicio impecable y ambiente mágico."</p><div class="client">— Camila R.</div></div>
+          <div class="testimonial testimonial-2" data-index="1"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p>"A mi edad, me devolvieron la confianza. El cariño y profesionalismo es único."</p><div class="client">— Patricia M.</div></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="action">
+    <img class="action-img" src="imgInput.png" alt="fondo">
+    <div class="action-overlay"></div>
+    <div class="container action-content">
+      <h2 id="listaParaTuMomentoMagico">Es tu turno 🌸</h2>
+      <p>💎 Regístrate ahora y recibe <strong>atención de inmediato</strong> + 10% de descuento en tu primera cita! <strong>Genial ¿No?</strong></p>
+      <form class="cta-form" id="ctaForm" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="a12cf32c-bb0d-4c18-aac6-07531cb4f4c1">
+        <input type="hidden" name="botcheck" value="">
+        <input type="hidden" name="redirect" value="https://www.facebook.com/profile.php?id=61573389955978&locale=es_LA">
+        <input type="hidden" name="subject" value="Nuevo lead desde Fergi Glamour">
+        <input type="text" name="name" placeholder="✨ Tu nombre completo *" required autocomplete="name">
+        <input type="email" name="email" placeholder="📧 Tu correo electrónico *" required autocomplete="email">
+        <input type="tel" name="phone" placeholder="📱 Whatsapp o teléfono *" required autocomplete="tel">
+        <textarea name="message" placeholder="¿Qué look sueñas? (opcional)" rows="2"></textarea>
+        <button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i> OBTENER MI DESCUENTO</button>
+        <div class="incentive-badge"><i class="fas fa-gift"></i> Cupo limitado - agenda ahora!</div>
+        <p class="form-message" id="formMessage"></p>
+        <div class="input-girl" id="inputGirl">
+          <img src="/imgInput.png" alt="Mascota decorativa">
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER PROFESIONAL REDISEÑADO -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h3>Fergi Beautyfull</h3>
+          <p>Donde la magia y la feminidad se encuentran. Transformamos tu belleza con estilo y dedicación.</p>
+          <div class="footer-social">
+            <a href="https://www.instagram.com/imperiodelabelleza__/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/573127812042" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.facebook.com/profile.php?id=61573389955978&locale=es_LA" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.tiktok.com/@fergihurtado25" target="_blank"><i class="fab fa-tiktok"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h3>Contacto</h3>
+          <ul class="footer-contact">
+            <li><i class="fab fa-whatsapp"></i> <a href="https://wa.me/573127812042">+57 312 781 2042</a></li>
+            <li><i class="fas fa-envelope"></i> <a href="mailto:fergibeauty04@gmail.com">fergibeauty04@gmail.com</a></li>
+            <li><i class="fab fa-instagram"></i> <a href="https://www.instagram.com/imperiodelabelleza__/" target="_blank">@imperiodelabelleza__</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>Enlaces rápidos</h3>
+          <ul class="footer-contact">
+            <li><i class="fas fa-chevron-right"></i> <a href="#testimonios">Testimonios</a></li>
+            <li><i class="fas fa-chevron-right"></i> <a href="#listaParaTuMomentoMagico">Agendar cita</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>Horario</h3>
+          <ul class="footer-contact">
+            <li><i class="fas fa-clock"></i> Lunes a Viernes: 9am - 7pm</li>
+            <li><i class="fas fa-clock"></i> Sábados: 8am - 6pm</li>
+            <li><i class="fas fa-heart"></i> Domingos: 8am - 2p.m</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-bottom-links">
+          <a href="#listaParaTuMomentoMagico">💫 ¡Quiero mi cita con descuento! 💫</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="full-brand-image">
+    <img src="/footerImge2.png" alt="">
+  </div>
+
+  <div id="lightboxOverlay" class="lightbox-overlay">
+    <div class="lightbox-close" id="lightboxClose"><i class="fas fa-times"></i></div>
+    <div class="lightbox-prev" id="lightboxPrev"><i class="fas fa-chevron-left"></i></div>
+    <div class="lightbox-next" id="lightboxNext"><i class="fas fa-chevron-right"></i></div>
+    <div class="lightbox-carousel-container">
+      <div class="lightbox-carousel" id="lightboxCarousel"></div>
+    </div>
+  </div>
+
+  <script>
+    const testimonialsData = [
+      { bgImage: 'testimonio1.png', stars: '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>', text: '"Me sentí como una princesa, servicio impecable y ambiente mágico."', client: '— Camila R.' },
+      { bgImage: 'testimonio2.png', stars: '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>', text: '"A mi me devolvieron la confianza. El cariño y profesionalismo es único."', client: '— Patricia M.' }
+    ];
+
+    let currentLightboxIndex = 0;
+    const lightboxOverlay = document.getElementById('lightboxOverlay');
+    const lightboxCarousel = document.getElementById('lightboxCarousel');
+    const closeBtn = document.getElementById('lightboxClose');
+    const prevBtn = document.getElementById('lightboxPrev');
+    const nextBtn = document.getElementById('lightboxNext');
+
+    function buildLightboxSlides() {
+      lightboxCarousel.innerHTML = '';
+      testimonialsData.forEach((item) => {
+        const slide = document.createElement('div');
+        slide.className = 'lightbox-slide';
+        slide.style.backgroundImage = `url('${item.bgImage}')`;
+        slide.style.backgroundSize = 'contain';
+        slide.style.backgroundRepeat = 'no-repeat';
+        slide.style.backgroundPosition = 'center';
+        const caption = document.createElement('div');
+        caption.className = 'lightbox-caption';
+        caption.innerHTML = `<div class="stars">${item.stars}</div><p>${item.text}</p><div class="client">${item.client}</div>`;
+        slide.appendChild(caption);
+        lightboxCarousel.appendChild(slide);
+      });
+    }
+
+    function updateLightboxCarousel(animate = true) {
+      if (!lightboxCarousel) return;
+      lightboxCarousel.style.transition = animate ? 'transform 0.4s ease' : 'none';
+      lightboxCarousel.style.transform = `translateX(-${currentLightboxIndex * 100}%)`;
+    }
+
+    function openLightbox(index) {
+      currentLightboxIndex = index;
+      buildLightboxSlides();
+      updateLightboxCarousel(false);
+      lightboxOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() { lightboxOverlay.classList.remove('active'); document.body.style.overflow = ''; }
+    function nextSlide() { if (currentLightboxIndex + 1 < testimonialsData.length) { currentLightboxIndex++; updateLightboxCarousel(true); } }
+    function prevSlide() { if (currentLightboxIndex - 1 >= 0) { currentLightboxIndex--; updateLightboxCarousel(true); } }
+
+    document.querySelectorAll('.testimonial').forEach((card, idx) => { card.addEventListener('click', (e) => { e.stopPropagation(); openLightbox(idx); }); });
+    closeBtn.addEventListener('click', closeLightbox);
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+    lightboxOverlay.addEventListener('click', (e) => { if (e.target === lightboxOverlay) closeLightbox(); });
+
+    // Carrusel móvil y demás funcionalidades (resumidas para brevedad, pero intactas)
+    (function() {
+      const carouselInner = document.getElementById('carouselInner');
+      const dots = document.querySelectorAll('#heroIndicators .dot');
+      const totalSlides = 3;
+      let currentIndex = 0, autoPlayInterval, isDragging = false, startPosX = 0, currentTranslate = 0, prevTranslate = 0;
+      function isMobile() { return window.innerWidth <= 768; }
+      function updateCarousel(index, animate = true) {
+        if (!carouselInner) return;
+        currentIndex = index;
+        carouselInner.style.transition = animate ? 'transform 0.5s cubic-bezier(0.25, 0.9, 0.4, 1.1)' : 'none';
+        carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
+        if (carouselInner.clientWidth) prevTranslate = -currentIndex * carouselInner.clientWidth;
+      }
+      function nextSlideAuto() { if (isMobile()) updateCarousel((currentIndex + 1) % totalSlides); }
+      function startAutoPlay() { stopAutoPlay(); if (isMobile()) autoPlayInterval = setInterval(nextSlideAuto, 4000); }
+      function stopAutoPlay() { if (autoPlayInterval) { clearInterval(autoPlayInterval); autoPlayInterval = null; } }
+      function getPosX(e) { return e.type.includes('mouse') ? e.pageX : e.touches[0].clientX; }
+      function dragStart(e) { if (!isMobile() || !carouselInner) return; isDragging = true; startPosX = getPosX(e); carouselInner.style.transition = 'none'; stopAutoPlay(); }
+      function dragMove(e) { if (!isDragging || !isMobile() || !carouselInner) return; e.preventDefault(); const currentPos = getPosX(e); currentTranslate = prevTranslate + (currentPos - startPosX); const minTranslate = -(totalSlides - 1) * carouselInner.clientWidth, maxTranslate = 0; if (currentTranslate > maxTranslate) currentTranslate = maxTranslate; if (currentTranslate < minTranslate) currentTranslate = minTranslate; carouselInner.style.transform = `translateX(${currentTranslate}px)`; }
+      function dragEnd() { if (!isDragging || !isMobile() || !carouselInner) return; isDragging = false; carouselInner.style.transition = 'transform 0.5s cubic-bezier(0.2,0.9,0.4,1.1)'; const movedBy = currentTranslate - prevTranslate, threshold = carouselInner.clientWidth * 0.2; if (movedBy < -threshold && currentIndex < totalSlides - 1) currentIndex++; else if (movedBy > threshold && currentIndex > 0) currentIndex--; updateCarousel(currentIndex); startAutoPlay(); }
+      if (carouselInner) { carouselInner.addEventListener('mousedown', dragStart); carouselInner.addEventListener('touchstart', dragStart, { passive: false }); window.addEventListener('mousemove', dragMove); window.addEventListener('touchmove', dragMove, { passive: false }); window.addEventListener('mouseup', dragEnd); window.addEventListener('touchend', dragEnd); }
+      dots.forEach(dot => dot.addEventListener('click', () => { if (!isMobile()) return; const idx = parseInt(dot.getAttribute('data-index')); updateCarousel(idx); stopAutoPlay(); startAutoPlay(); }));
+      window.addEventListener('resize', () => { if (isMobile()) { updateCarousel(currentIndex, false); startAutoPlay(); } else { stopAutoPlay(); } });
+      if (isMobile()) { updateCarousel(0, false); startAutoPlay(); }
+    })();
+
+    const whatsappFloat = document.getElementById('whatsappFloat');
+    const heroSection = document.querySelector('.hero');
+    function isHeroVisible() { if (!heroSection) return true; const rect = heroSection.getBoundingClientRect(); const windowHeight = window.innerHeight || document.documentElement.clientHeight; return rect.bottom > 0 && rect.top < windowHeight; }
+    function toggleWhatsappFloat() { if (!whatsappFloat) return; const heroOnScreen = isHeroVisible(); if (!heroOnScreen) whatsappFloat.classList.add('visible'); else whatsappFloat.classList.remove('visible'); }
+    window.addEventListener('scroll', toggleWhatsappFloat); window.addEventListener('resize', toggleWhatsappFloat); toggleWhatsappFloat();
+
+    const floatingGirl = document.getElementById("inputGirl");
+    const formElement = document.getElementById("ctaForm");
+    const formInputsList = document.querySelectorAll(".cta-form input:not([type='hidden']), .cta-form textarea");
+    function moveGirlToInput(input) { if (!floatingGirl || !formElement) return; const formRect = formElement.getBoundingClientRect(); const inputRect = input.getBoundingClientRect(); const girlWidth = floatingGirl.offsetWidth; const girlHeight = floatingGirl.offsetHeight; const left = inputRect.right - formRect.left - girlWidth * 0.78; const top = inputRect.top - formRect.top + inputRect.height - girlHeight * 0.61; floatingGirl.style.left = `${left}px`; floatingGirl.style.top = `${top}px`; floatingGirl.classList.add("active"); }
+    formInputsList.forEach(input => { input.addEventListener("focus", () => { moveGirlToInput(input); }); });
+    document.addEventListener("click", (e) => { const clickedInput = e.target.closest(".cta-form input, .cta-form textarea"); if (!clickedInput) floatingGirl.classList.remove("active"); });
+    window.addEventListener("resize", () => { const active = document.activeElement; if (active && active.matches(".cta-form input, .cta-form textarea")) moveGirlToInput(active); });
+
+    const msgDiv = document.getElementById("formMessage");
+    if (formElement) {
+      formElement.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        msgDiv.innerHTML = "✨ Enviando tu solicitud mágica... ✨";
+        msgDiv.style.color = "#fff3c9";
+        try {
+          const formData = new FormData(formElement);
+          const response = await fetch(formElement.action, { method: "POST", body: formData, headers: { "Accept": "application/json" } });
+          const result = await response.json();
+          if (result.success) {
+            msgDiv.innerHTML = "✅ ¡Listo! Te contactaremos en breve con tu descuento especial 💖";
+            msgDiv.style.color = "#d4ffb0";
+            formElement.reset();
+            floatingGirl.classList.remove("active");
+            setTimeout(() => { if(result.redirect) window.location.href = result.redirect; else msgDiv.innerHTML = "🎉 ¡Gracias! Revisa tu WhatsApp o correo, te esperamos."; }, 1500);
+          } else { msgDiv.innerHTML = "⚠️ Ups! Hubo un error, intenta de nuevo o contáctanos por WhatsApp."; msgDiv.style.color = "#ffb3b3"; }
+        } catch (error) { msgDiv.innerHTML = "❌ Error de conexión. Escríbenos directamente a WhatsApp."; msgDiv.style.color = "#ffb3b3"; }
+      });
+    }
+  </script>
+</body>
+</html>
